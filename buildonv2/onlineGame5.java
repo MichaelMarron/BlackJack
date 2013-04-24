@@ -84,6 +84,10 @@ private String server = "localhost";//hardcoded in for now
 //Client client;
 //superswing.numberOfPlayers=0;
 
+//Database querying
+databaseQuerying queryObject = new databaseQuerying();
+
+
 public boolean ConnectToServer() //Connection Method
 {
 	try {
@@ -1129,12 +1133,21 @@ setVisible(true); //Make JFrame visible
 
 public void layoutmaker(CardLayout layout1, Object eventtype){
 CardLayout cardLayout = (CardLayout) cards.getLayout();
-	if (eventtype== submitLogin){
+	if (eventtype== submitLogin)
+	{
 	
-	Boolean Attempt =  ConnectToServer();
-	if (Attempt == true){ 
-		cardLayout.show(cards, "welcome");
-		}
+	if(queryObject.login(userNameField.getText(), passwordField.getText()) == 1)
+            {
+                System.out.println("Correct username & password");
+                Boolean Attempt =  ConnectToServer();
+                if (Attempt == true){ 
+                    cardLayout.show(cards, "welcome");
+                }
+            }
+            else
+            {
+                System.out.println("Wrong username & password");
+            }
 	}
 	if (eventtype== register){
 	cardLayout.show(cards, "register");}
