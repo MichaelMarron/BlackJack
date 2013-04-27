@@ -84,6 +84,10 @@ private String server = "localhost";//hardcoded in for now
 //Client client;
 //superswing.numberOfPlayers=0;
 
+//Database querying
+databaseQuerying queryObject = new databaseQuerying();
+
+
 public boolean ConnectToServer() //Connection Method
 {
 	try {
@@ -165,11 +169,11 @@ class ListenFromServer extends Thread {
 					CurrentMessage=msg;
 
 					updating = false;
-					//System.out.println(msg);
+					System.out.println(msg);
 					
 					ConsoleOutput.setText(msg);
 					
-					//System.out.print("> ");
+					System.out.print("> ");
 
 
 
@@ -577,12 +581,6 @@ card9.add(blackjackStick, "growx, wrap");
 card9.add(blackjackRefresh2, "growx, wrap");
 card9.add(UserInstructions, "growx, wrap");
 
-//Add a panel or similar element that can have images of cards added/removed from it on request from the server. When the game card values are parsed for each user.
-//TODOLIST
-
-//Individual username to be added to top of screen, possibly on all screens once logged in successfully, saying "welcome: user"
-//Then game networking needs to be updated so that particular users are shown their cards, game chat can be done and a list of who is in each game can be created.
-//TODOLIST
 
 }
 
@@ -800,7 +798,7 @@ card13.setBackground(Color.magenta);
 
 
 }
-
+/*
 public void Card14Constructor(JPanel card14) //Card3 constructor
 {//BlackJack
 gameTitleBJ = new TitledBorder("Create a Game of Black Jack");
@@ -975,16 +973,9 @@ card15.setBackground(Color.magenta);
 
 
 }
-
-//working constructor with a list box of instances of game types needs to be created. Generally, just make a front-end screen with the logo, some join/back buttons and a listbox so that it can be accessed and Then the networking code can be hooked up to it, rather than everyone joining just one blackjack game.
-//TODOLIST
+*/
 
 
-//Method for creating games. Reminder to use "new superswing" with a unique id, but use superswing as a variable and change it depending on use. 
-//TODOLIST
-
-//Method for joining particular game lobbies. Reminder to parse game choices into listbox then increment player count on that game and rejoin users.
-//TODOLIST
 
 
 
@@ -1061,8 +1052,8 @@ Card10Constructor(card10);
 Card11Constructor(card11);
 Card12Constructor(card12);
 Card13Constructor(card13);
-//Card14Constructor(card14);  //When these are uncommented, nullpointer exceptions are given. Don't suppose a front-end guy could take a look? 
-//Card15Constructor(card15);	//TODOLIST
+//Card14Constructor(card14);
+//Card15Constructor(card15);
 
 
 
@@ -1085,6 +1076,55 @@ cards.add(card14, "createAgameBlackjack");
 cards.add(card15, "createAgamePoker");
 
 
+
+//Action Listeners
+/*
+//register.addActionListener(this);
+registerBack.addActionListener(this);
+//submitLogin.addActionListener(this);
+findFriend.addActionListener(this);
+gamesB.addActionListener(this);
+findFriendBack.addActionListener(this);
+blackjack.addActionListener(this);
+texas.addActionListener(this);
+createAGame.addActionListener(this);
+newLeague.addActionListener(this);
+gamesBack.addActionListener(this);
+pokerHelpB.addActionListener(this);
+pokerCall.addActionListener(this);
+pokerCheck.addActionListener(this);
+pokerRaise.addActionListener(this);
+pokerFold.addActionListener(this);
+pokerBack.addActionListener(this);
+blackjackHelp.addActionListener(this);
+blackjackHit.addActionListener(this);
+blackjackStick.addActionListener(this);
+blackjackDeal.addActionListener(this);
+blackjackBet.addActionListener(this);
+blackjackBack.addActionListener(this);
+helpBack.addActionListener(this);
+leagueStatB.addActionListener(this);
+createLeaB.addActionListener(this);
+HomeB7.addActionListener(this);
+HomeB8.addActionListener(this);
+HomeB9.addActionListener(this);
+PokerB.addActionListener(this);
+BJB.addActionListener(this);
+BackP.addActionListener(this);
+BackBj.addActionListener(this);
+viewProfileB.addActionListener(this);
+vPEdit.addActionListener(this);
+vPBack.addActionListener(this);
+ePBackB.addActionListener(this);
+ePSubmitB.addActionListener(this);
+logoutB.addActionListener(this);
+
+
+
+//Create the panel that contains the "cards".
+*/
+
+
 //getContentPane().add(logoPanel);
 getContentPane().add(cards);
 
@@ -1093,18 +1133,21 @@ setVisible(true); //Make JFrame visible
 
 public void layoutmaker(CardLayout layout1, Object eventtype){
 CardLayout cardLayout = (CardLayout) cards.getLayout();
-	if (eventtype== submitLogin){
+	if (eventtype== submitLogin)
+	{
 	
-	
-	//Currently this connection to server also adds a player to the blackjack game, but this can be easily modified if there is a game lobby screen.
-	//Some database entry here to parse the login fields, send them to the mysql server and then allow login is needed. Might make sense to do it in a seperate method similar to "ConnectToServer()".
-	//Similarly, an isolated method for connecting to the database server would be useful for server updates etc. 
-	
-	//TODOLIST
-	Boolean Attempt =  ConnectToServer();
-	if (Attempt == true){ 
-		cardLayout.show(cards, "welcome");
-		}
+	if(queryObject.login(userNameField.getText(), passwordField.getText()) == 1)
+            {
+                System.out.println("Correct username & password");
+                Boolean Attempt =  ConnectToServer();
+                if (Attempt == true){ 
+                    cardLayout.show(cards, "welcome");
+                }
+            }
+            else
+            {
+                System.out.println("Wrong username & password");
+            }
 	}
 	if (eventtype== register){
 	cardLayout.show(cards, "register");}
@@ -1151,20 +1194,30 @@ CardLayout cardLayout = (CardLayout) cards.getLayout();
 
 
 
-	//Networking stuff	
+	//Networking stuff
+	
 	String msg = "New Player has joined the game ";
 	sendMessage(new ChatMessage(ChatMessage.MESSAGE, msg, null, 0, 0));
 	UpdateState();
+
+
+
 	}
 	if (eventtype== blackjackStick){
 		PlayerStickRequest();
+
 	}
+
 	if (eventtype== blackjackHit){
 		PlayerHitRequest();
+
 	}
 	if (eventtype== blackjackDeal){
 		PlayerDealRequest();
+
 	}
+
+
 	if (eventtype== blackjackRefresh2){
 		UpdateState();
 	}
@@ -1222,7 +1275,6 @@ CardLayout cardLayout = (CardLayout) cards.getLayout();
 	String gamename = "BlackJack";
 	sendMessage(new ChatMessage(ChatMessage.CHANGE, username, gamename, 0, 1));
 	UpdateState();
-	//System.out.println("USERNAME: " + username);
 	}
 	public void PlayerDealRequest(){
 
@@ -1245,8 +1297,12 @@ CardLayout cardLayout = (CardLayout) cards.getLayout();
 	public void UpdateState(){
 	String gamename = "BlackJack";
 	updating = true;
+
 	sendMessage(new ChatMessage(ChatMessage.RETRIEVE, username, gamename, 0, 0));
+	
+
 	String reply = CurrentMessage;
+
 	ConsoleOutput.setText(reply);
 	
 
