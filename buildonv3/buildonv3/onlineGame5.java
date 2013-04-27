@@ -108,7 +108,7 @@ public boolean ConnectToServer() //Connection Method
 	catch (IOException eIO) {
 		display("Exception creating new Input/output Streams: " + eIO);
 		return false;
-	}		
+	}
 	new ListenFromServer().start();
 	try
 	{
@@ -120,12 +120,12 @@ public boolean ConnectToServer() //Connection Method
 		return false;
 	}
 
-	
-	
+
+
 	return true;
-		
-		
-		
+
+
+
 }
 
 private void display(String msg) {
@@ -147,11 +147,11 @@ private void disconnect() {
 	try {
 		if(sInput != null) sInput.close();
 	}
-	catch(Exception e) {} 
+	catch(Exception e) {}
 	try {
 		if(sOutput != null) sOutput.close();
 	}
-	catch(Exception e) {} 
+	catch(Exception e) {}
     try{
 		if(socket != null) socket.close();
 	}
@@ -170,9 +170,9 @@ class ListenFromServer extends Thread {
 
 					updating = false;
 					System.out.println(msg);
-					
+
 					ConsoleOutput.setText(msg);
-					
+
 					System.out.print("> ");
 
 
@@ -584,6 +584,14 @@ card9.add(UserInstructions, "growx, wrap");
 
 }
 
+        //Add a panel or similar element that can have images of cards added/removed from it on request from the server. When the game card values are parsed for each user.
+        //TODOLIST
+
+        //Individual username to be added to top of screen, possibly on all screens once logged in successfully, saying "welcome: user"
+        //Then game networking needs to be updated so that particular users are shown their cards, game chat can be done and a list of who is in each game can be created.
+        //TODOLIST
+
+
 
 public void Card10Constructor(JPanel card10) //Card10 constructor
 {
@@ -973,9 +981,20 @@ card15.setBackground(Color.magenta);
 
 
 }
+
 */
 
+// These cards have been broken since I got them and give errors when compiled with a constructor. Anyone on frontend know about it?
+// TODOLIST
 
+    //working constructor with a list box of instances of game types needs to be created. Generally, just make a front-end screen with the logo, some join/back buttons and a listbox so that it can be accessed and Then the networking code can be hooked up to it, rather than everyone joining just one blackjack game.
+    //TODOLIST
+
+    //Method for creating games. Reminder to use "new superswing" with a unique id, but use superswing as a variable and change it depending on use.
+    //TODOLIST
+
+    //Method for joining particular game lobbies. Reminder to parse game choices into listbox then increment player count on that game and rejoin users.
+    //TODOLIST
 
 
 
@@ -1135,12 +1154,20 @@ public void layoutmaker(CardLayout layout1, Object eventtype){
 CardLayout cardLayout = (CardLayout) cards.getLayout();
 	if (eventtype== submitLogin)
 	{
-	
+
+	//Currently this connection to server also adds a player to the blackjack game, but this can be easily modified if there is a game lobby screen.
+	//Some database entry here to parse the login fields, send them to the mysql server and then allow login is needed. Might make sense to do it in a seperate method similar to "ConnectToServer()".
+	//Similarly, an isolated method for connecting to the database server would be useful for server update     s etc.
+
+            //TODOLIST
+
+
+
 	if(queryObject.login(userNameField.getText(), passwordField.getText()) == 1)
             {
                 System.out.println("Correct username & password");
                 Boolean Attempt =  ConnectToServer();
-                if (Attempt == true){ 
+                if (Attempt == true){
                     cardLayout.show(cards, "welcome");
                 }
             }
@@ -1195,7 +1222,7 @@ CardLayout cardLayout = (CardLayout) cards.getLayout();
 
 
 	//Networking stuff
-	
+
 	String msg = "New Player has joined the game ";
 	sendMessage(new ChatMessage(ChatMessage.MESSAGE, msg, null, 0, 0));
 	UpdateState();
@@ -1268,25 +1295,25 @@ CardLayout cardLayout = (CardLayout) cards.getLayout();
 	cardLayout.show(cards, "Games");}
 	}
 
-	
+
 	public void PlayerHitRequest(){
 
-		
+
 	String gamename = "BlackJack";
 	sendMessage(new ChatMessage(ChatMessage.CHANGE, username, gamename, 0, 1));
 	UpdateState();
 	}
 	public void PlayerDealRequest(){
 
-		
+
 	String gamename = "BlackJack";
 	sendMessage(new ChatMessage(ChatMessage.CHANGE, username, gamename, 0, 3));
 	UpdateState();
 	}
-	
+
 	public void PlayerStickRequest(){
 
-		
+
 	String gamename = "BlackJack";
 	sendMessage(new ChatMessage(ChatMessage.CHANGE, username, gamename, 0, 2));
 	UpdateState();
@@ -1299,16 +1326,16 @@ CardLayout cardLayout = (CardLayout) cards.getLayout();
 	updating = true;
 
 	sendMessage(new ChatMessage(ChatMessage.RETRIEVE, username, gamename, 0, 0));
-	
+
 
 	String reply = CurrentMessage;
 
 	ConsoleOutput.setText(reply);
-	
+
 
 
 	}
-	
+
 
 
 
