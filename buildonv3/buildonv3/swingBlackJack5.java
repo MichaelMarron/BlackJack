@@ -377,6 +377,13 @@ JPanel p = new JPanel();
 				}
 				ResultsDisplayed = true;
 				
+				/* debug
+				for (int i=0; i<numberOfPlayers; i++)
+				{
+					System.out.println(ShowHand(i));
+				}
+				*/
+				
 				StillPlaying = false;
 
 			}
@@ -385,10 +392,20 @@ JPanel p = new JPanel();
 			//method needed to connect to the mysql server when an instance of the game is run? Or maybe just lob a connection in to the main server
 			//method needed to parse the respective usernames and wins for each player in the game and then send the data to the Mysql server.
 			//TODOLIST
-
-
-
-
+	
+	public String ShowHand(int playernumber){
+		
+		int handsize = players[playernumber].countCards();
+		String playVal = "";
+		playVal = playVal+handsize;
+		for (int j=0; j<handsize; j++){
+			playVal= playVal + players[playernumber].showHand(j) + " ";
+			
+		}
+	
+		return playVal;
+	}
+	
 
 
 

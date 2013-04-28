@@ -8,14 +8,12 @@ import javax.swing.table.DefaultTableModel;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 // Packages used in this program imported
 
 public class onlineGame5 extends JFrame implements ActionListener
 {
 
-JPanel cards, logoPanel, cardPanel, logoPanel2;
+JPanel cards, logoPanel, cardPanel, cardPanel2,logoPanel2;
 JLabel logo, userNameLabel, passwordLabel, fName, lName, dOB, aLine1, aLine2;
 JLabel city, postCode, eMail, cUsername, cPassword, welcomeLabel;
 JLabel friendLabel, friendUsername, gamesMenuLabel, helpPageLabel, blackjackLabel;
@@ -49,9 +47,69 @@ TitledBorder friendTitle, gameMenuTitle, leaderBoardTitle, viewProfileTitle;
 TitledBorder helpPageTitle, pokerTitle, blackjackTitle;
 
 
-
+JLabel card1shell, card2shell, card3shell, card4shell, card5shell, card6shell;
 JTextArea ConsoleOutput;
 JTextArea UserInstructions;
+
+ImageIcon cardBlank = new ImageIcon("Images/NoCard.png");
+ImageIcon cardKS= new ImageIcon("Images/KingSpades.png");
+ImageIcon cardQS= new ImageIcon("Images/QueenSpades.png");
+ImageIcon cardJS= new ImageIcon("Images/JackSpades.png");
+ImageIcon card10S= new ImageIcon("Images/10Spades.png");
+ImageIcon card9S= new ImageIcon("Images/9Spades.png");
+ImageIcon card8S= new ImageIcon("Images/8Spades.png");
+ImageIcon card7S= new ImageIcon("Images/7Spades.png");
+ImageIcon card6S= new ImageIcon("Images/6Spades.png");
+ImageIcon card5S= new ImageIcon("Images/5Spades.png");
+ImageIcon card4S= new ImageIcon("Images/3Spades.png");
+ImageIcon card3S= new ImageIcon("Images/3Spades.png");
+ImageIcon card2S= new ImageIcon("Images/2Spades.png");
+ImageIcon cardAS= new ImageIcon("Images/AceSpades.png");
+
+ImageIcon cardKC= new ImageIcon("Images/KingClubs.png");
+ImageIcon cardQC= new ImageIcon("Images/QueenClubs.png");
+ImageIcon cardJC= new ImageIcon("Images/JackClubs.png");
+ImageIcon card10C= new ImageIcon("Images/10Clubs.png");
+ImageIcon card9C= new ImageIcon("Images/9Clubs.png");
+ImageIcon card8C= new ImageIcon("Images/8Clubs.png");
+ImageIcon card7C= new ImageIcon("Images/7Clubs.png");
+ImageIcon card6C= new ImageIcon("Images/6Clubs.png");
+ImageIcon card5C= new ImageIcon("Images/5Clubs.png");
+ImageIcon card4C= new ImageIcon("Images/3Clubs.png");
+ImageIcon card3C= new ImageIcon("Images/3Clubs.png");
+ImageIcon card2C= new ImageIcon("Images/2Clubs.png");
+ImageIcon cardAC= new ImageIcon("Images/AceClubs.png");
+
+ImageIcon cardKH= new ImageIcon("Images/KingHearts.png");
+ImageIcon cardQH= new ImageIcon("Images/QueenHearts.png");
+ImageIcon cardJH= new ImageIcon("Images/JackHearts.png");
+ImageIcon card10H= new ImageIcon("Images/10Hearts.png");
+ImageIcon card9H= new ImageIcon("Images/9Hearts.png");
+ImageIcon card8H= new ImageIcon("Images/8Hearts.png");
+ImageIcon card7H= new ImageIcon("Images/7Hearts.png");
+ImageIcon card6H= new ImageIcon("Images/6Hearts.png");
+ImageIcon card5H= new ImageIcon("Images/5Hearts.png");
+ImageIcon card4H= new ImageIcon("Images/4Hearts.png");
+ImageIcon card3H= new ImageIcon("Images/3Hearts.png");
+ImageIcon card2H= new ImageIcon("Images/2Hearts.png");
+ImageIcon cardAH= new ImageIcon("Images/AceHearts.png");
+
+ImageIcon cardKD= new ImageIcon("Images/KingDiamonds.png");
+ImageIcon cardQD= new ImageIcon("Images/QueenDiamonds.png");
+ImageIcon cardJD= new ImageIcon("Images/JackDiamonds.png");
+ImageIcon card10D= new ImageIcon("Images/10Diamonds.png");
+ImageIcon card9D= new ImageIcon("Images/9Diamonds.png");
+ImageIcon card8D= new ImageIcon("Images/8Diamonds.png");
+ImageIcon card7D= new ImageIcon("Images/7Diamonds.png");
+ImageIcon card6D= new ImageIcon("Images/6Diamonds.png");
+ImageIcon card5D= new ImageIcon("Images/5Diamonds.png");
+ImageIcon card4D= new ImageIcon("Images/3Diamonds.png");
+ImageIcon card3D= new ImageIcon("Images/3Diamonds.png");
+ImageIcon card2D= new ImageIcon("Images/2Diamonds.png");
+ImageIcon cardAD= new ImageIcon("Images/AceDiamonds.png");
+
+
+
 
 JPasswordField passwordField;
 JTable leaderBoard, table, table2, table3;
@@ -163,20 +221,22 @@ class ListenFromServer extends Thread {
 		while(true) {
 			try {
 				String msg = (String) sInput.readObject();
+				
 				// if console mode print the message and add back the prompt
 
 
 					CurrentMessage=msg;
 
 					updating = false;
-					System.out.println(msg);
 
+
+				
+				if (msg.startsWith("C")){
+					MatchCards(msg);
+				}
+				else{  
 					ConsoleOutput.setText(msg);
-
-					System.out.print("> ");
-
-
-
+				}
 			}
 			catch(IOException e) {
 				display("Server has close the connection: " + e);
@@ -554,7 +614,7 @@ ConsoleOutput = new JTextArea();
 UserInstructions = new JTextArea();
 scrollPane = new JScrollPane(ConsoleOutput);
 
-UserInstructions.setPreferredSize(new Dimension(250,100));
+UserInstructions.setPreferredSize(new Dimension(250,10));
 scrollPane.setPreferredSize(new Dimension(250, 300));
 ConsoleOutput.setEditable(false);
 UserInstructions.setEditable(false);
@@ -573,13 +633,40 @@ blackjackRefresh2.addActionListener(this);
 blackjackBack.addActionListener(this);
 
 card9.add(scrollPane, "growx, wrap 5");
-card9.add(blackjackBack, "growx, wrap");
+card9.add(blackjackBack, "growx");
 //card9.add(ConsoleOutput, "growx");
 card9.add(blackjackDeal, "growx, wrap");
-card9.add(blackjackHit, "growx, wrap");
+card9.add(blackjackHit, "growx");
 card9.add(blackjackStick, "growx, wrap");
-card9.add(blackjackRefresh2, "growx, wrap");
+card9.add(blackjackRefresh2, "growx");
 card9.add(UserInstructions, "growx, wrap");
+
+
+cardPanel = new JPanel(new MigLayout("wrap 6","[70!]","[40!]"));
+cardPanel.setPreferredSize(new Dimension(50, 200));
+cardPanel.setBackground(Color.green);
+
+
+
+
+card1shell = new JLabel(cardBlank);
+card2shell = new JLabel(cardBlank);
+card3shell = new JLabel(cardBlank);
+card4shell = new JLabel(cardBlank);
+card5shell = new JLabel(cardBlank);
+card6shell = new JLabel(cardBlank);
+
+
+cardPanel.add(card1shell);
+cardPanel.add(card2shell);
+cardPanel.add(card3shell);
+cardPanel.add(card4shell);
+cardPanel.add(card5shell);
+cardPanel.add(card6shell);
+
+//JPanel card9 = new JPanel(new MigLayout("wrap 5", "10[]790[]50[]50[]", "[50!]"));
+
+card9.add(cardPanel, "growx");
 
 
 }
@@ -1039,8 +1126,8 @@ JPanel card5 = new JPanel(new MigLayout());
 JPanel card6 = new JPanel(new MigLayout("wrap 5", "[200!]", "[50!]"));
 JPanel card7 = new JPanel(new MigLayout("wrap 5", "[200!]", "[50!]"));
 JPanel card8 = new JPanel(new MigLayout("wrap 5", "[200!]", "[50!]"));
-//JPanel card9 = new JPanel(new MigLayout());
 JPanel card9 = new JPanel(new MigLayout("wrap 1", "[800!]", "[::200]"));
+
 JPanel card10 = new JPanel(new MigLayout(	      "",           // Layout Constraints
 	      "20[]20[]20[]20[]20[]20[]20[]20[]20[]",   // Column constraints
 	      "[]20[]20[]20[]20[]20[]20[]20[]20[]20[]"));
@@ -1091,8 +1178,8 @@ cards.add(card10, "createAgameMenu");
 cards.add(card11, "helpPageC");
 cards.add(card12, "createAnewLeague");
 cards.add(card13, "viewLeague");
-cards.add(card14, "createAgameBlackjack");
-cards.add(card15, "createAgamePoker");
+//cards.add(card14, "createAgameBlackjack");
+//cards.add(card15, "createAgamePoker");
 
 
 
@@ -1163,18 +1250,18 @@ CardLayout cardLayout = (CardLayout) cards.getLayout();
 
 
 
-	if(queryObject.login(userNameField.getText(), passwordField.getText()) == 1)
-            {
-                System.out.println("Correct username & password");
+	//if(queryObject.login(userNameField.getText(), passwordField.getText()) == 1)
+            //{
+              //  System.out.println("Correct username & password");
                 Boolean Attempt =  ConnectToServer();
                 if (Attempt == true){
                     cardLayout.show(cards, "welcome");
                 }
-            }
-            else
-            {
-                System.out.println("Wrong username & password");
-            }
+            //}
+            //else
+            //{
+            //    System.out.println("Wrong username & password");
+            //}
 	}
 	if (eventtype== register){
 	cardLayout.show(cards, "register");}
@@ -1246,7 +1333,8 @@ CardLayout cardLayout = (CardLayout) cards.getLayout();
 
 
 	if (eventtype== blackjackRefresh2){
-		UpdateState();
+		UpdateCards();
+		//UpdateState();
 	}
 
 
@@ -1319,9 +1407,126 @@ CardLayout cardLayout = (CardLayout) cards.getLayout();
 	UpdateState();
 	}
 
+	public void UpdateCards(){
 
+	String gamename = "BlackJack";	
+	sendMessage(new ChatMessage(ChatMessage.DRAW, username, gamename, 0, 0));
 
+	
+	}
+
+	public void MatchCards(String msg){
+	
+	
+	int first =3;
+	int last = 5;
+	int handsize = Integer.parseInt(msg.substring(2,3));
+	int position =1;
+	int i =0;
+	
+	while (i <handsize){
+		String value = msg.substring(first,last-1);	
+		String suit = msg.substring(first+1,last);	
+	
+		DrawCards(value,suit,position);
+		System.out.println(value + suit);
+		
+		first = first +3;
+		last = last +3;
+		position++;
+		i++;
+	}
+	
+
+	}
+
+	public void DrawCards(String value, String suit, int position){
+		if (position == 1){
+			DrawCards2(card1shell,value,suit);
+		}
+		if (position == 2){
+			DrawCards2(card2shell,value,suit);
+		}
+		if (position == 3){
+			DrawCards2(card3shell,value,suit);
+		}
+		if (position == 4){
+			DrawCards2(card4shell,value,suit);
+		}
+		if (position == 5){
+			DrawCards2(card5shell,value,suit);
+		}
+	}
+	
+	public void DrawCards2(JLabel Label, String value,String suit){
+
+		if (value.equals("K") && suit.equals("S")){
+		Label.setIcon(cardKS);}if (value.equals("Q") && suit.equals("S")){
+		Label.setIcon(cardQS);}if (value.equals("J") && suit.equals("S")){
+		Label.setIcon(cardJS);}if (value.equals("X") && suit.equals("S")){
+		Label.setIcon(card10S);}if (value.equals("9") && suit.equals("S")){
+		Label.setIcon(card9S);}if (value.equals("8") && suit.equals("S")){
+		Label.setIcon(card8S);}if (value.equals("7") && suit.equals("S")){
+		Label.setIcon(card7S);}if (value.equals("6") && suit.equals("S")){
+		Label.setIcon(card6S);}if (value.equals("5") && suit.equals("S")){
+		Label.setIcon(card5S);}if (value.equals("4") && suit.equals("S")){
+		Label.setIcon(card4S);}if (value.equals("3") && suit.equals("S")){
+		Label.setIcon(card3S);}if (value.equals("2") && suit.equals("S")){
+		Label.setIcon(card2S);}if (value.equals("A") && suit.equals("S")){
+		Label.setIcon(cardAS);}
+
+		if (value.equals("K") && suit.equals("C")){
+		Label.setIcon(cardKC);}if (value.equals("Q") && suit.equals("C")){
+		Label.setIcon(cardQC);}if (value.equals("J") && suit.equals("C")){
+		Label.setIcon(cardJC);}if (value.equals("X") && suit.equals("C")){
+		Label.setIcon(card10C);}if (value.equals("9") && suit.equals("C")){
+		Label.setIcon(card9C);}if (value.equals("8") && suit.equals("C")){
+		Label.setIcon(card8C);}if (value.equals("7") && suit.equals("C")){
+		Label.setIcon(card7C);}if (value.equals("6") && suit.equals("C")){
+		Label.setIcon(card6C);}if (value.equals("5") && suit.equals("C")){
+		Label.setIcon(card5C);}if (value.equals("4") && suit.equals("C")){
+		Label.setIcon(card4C);}if (value.equals("3") && suit.equals("C")){
+		Label.setIcon(card3C);}if (value.equals("2") && suit.equals("C")){
+		Label.setIcon(card2C);}if (value.equals("A") && suit.equals("C")){
+		Label.setIcon(cardAC);}
+
+		if (value.equals("K") && suit.equals("H")){
+		Label.setIcon(cardKH);}if (value.equals("Q") && suit.equals("H")){
+		Label.setIcon(cardQH);}if (value.equals("J") && suit.equals("H")){
+		Label.setIcon(cardJH);}if (value.equals("X") && suit.equals("H")){
+		Label.setIcon(card10H);}if (value.equals("9") && suit.equals("H")){
+		Label.setIcon(card9H);}if (value.equals("8") && suit.equals("H")){
+		Label.setIcon(card8H);}if (value.equals("7") && suit.equals("H")){
+		Label.setIcon(card7H);}if (value.equals("6") && suit.equals("H")){
+		Label.setIcon(card6H);}if (value.equals("5") && suit.equals("H")){
+		Label.setIcon(card5H);}if (value.equals("4") && suit.equals("H")){
+		Label.setIcon(card4H);}if (value.equals("3") && suit.equals("H")){
+		Label.setIcon(card3H);}if (value.equals("2") && suit.equals("H")){
+		Label.setIcon(card2H);}if (value.equals("A") && suit.equals("H")){
+		Label.setIcon(cardAH);}
+
+		if (value.equals("K") && suit.equals("D")){
+		Label.setIcon(cardKD);}if (value.equals("Q") && suit.equals("D")){
+		Label.setIcon(cardQD);}if (value.equals("J") && suit.equals("D")){
+		Label.setIcon(cardJD);}if (value.equals("X") && suit.equals("D")){
+		Label.setIcon(card10D);}if (value.equals("9") && suit.equals("D")){
+		Label.setIcon(card9D);}if (value.equals("8") && suit.equals("D")){
+		Label.setIcon(card8D);}if (value.equals("7") && suit.equals("D")){
+		Label.setIcon(card7D);}if (value.equals("6") && suit.equals("D")){
+		Label.setIcon(card6D);}if (value.equals("5") && suit.equals("D")){
+		Label.setIcon(card5D);}if (value.equals("4") && suit.equals("D")){
+		Label.setIcon(card4D);}if (value.equals("3") && suit.equals("D")){
+		Label.setIcon(card3D);}if (value.equals("2") && suit.equals("D")){
+		Label.setIcon(card2D);}if (value.equals("A") && suit.equals("D")){
+		Label.setIcon(cardAD);}
+		
+		
+	}
+	
+	
+	
 	public void UpdateState(){
+	UpdateCards();
 	String gamename = "BlackJack";
 	updating = true;
 

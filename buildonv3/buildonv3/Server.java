@@ -20,7 +20,7 @@ public class Server {
 	private boolean keepGoing;
 	swingBlackJack5 superswing;
 	String x;
-	int[] testarray= new int[10];
+
 
 
 
@@ -44,10 +44,7 @@ public class Server {
 		al = new ArrayList<ClientThread>();
 
 
-		//int[] testarray = new int[10];
-		testarray[0] = 100;
-		testarray[1] = 150;
-		testarray[2] = 120;
+
 		}
 
 
@@ -171,14 +168,12 @@ public class Server {
 	}
 
 	private synchronized void broadcastSpecific(String message, String Username) {
-		// add HH:mm:ss and \n to the message
-		String time = sdf.format(new Date());
-		String messageLf = time + " " + message + "\n";
-			//System.out.print(messageLf);//display messages locally on server.
+
+		String messageLf = "C " + message + " EN";
 		for(int i = al.size(); --i >= 0;) {
 			ClientThread ct = al.get(i);
 			if (ct.username == Username){
-				if(!ct.writeMsg(messageLf)) { //writeMsg Writes to all clients
+				if(!ct.writeMsg(messageLf)) {
 					al.remove(i);
 					superswing.numberOfPlayers--;
 					superswing.resetGame();
@@ -196,7 +191,7 @@ public class Server {
 	private synchronized void broadcast(String message) {
 		// add HH:mm:ss and \n to the message
 		String time = sdf.format(new Date());
-		String messageLf = time + " " + message + "\n";
+		String messageLf = message + "\n";
 			//System.out.print(messageLf);//display messages locally on server.
 		// we loop in reverse order in case we would have to remove a Client
 		// because it has disconnected
@@ -221,11 +216,6 @@ public class Server {
 	private void ChangeServerValue(String arrayToBeChanged, int target, int value) {
 
 
-
-
-		if (arrayToBeChanged.equals("1")){
-			testarray[target]= value;
-		}
 
 	}
 
@@ -389,6 +379,13 @@ public class Server {
 					keepGoing = false;
 					break;
 
+				case ChatMessage.DRAW:
+
+					x=superswing.ShowHand(id-1);
+
+					broadcastSpecific(x,username);
+
+					break;
 
 				case ChatMessage.RETRIEVE:
 
@@ -397,10 +394,9 @@ public class Server {
 
 					superswing.game();
 					x=(superswing.GameState);
-					//broadcastSpecific("Game State: " + x + " End of game State",username);
-					broadcast("Game State: \n" + x + " End of game State");
+					broadcast("\n" + x);
 					String GameStateString =getState(username);
-					//broadcastSpecific("You are player: " + id,username);
+					
 
 					break;
 
@@ -411,9 +407,8 @@ public class Server {
 
 					superswing.event(id,value);
 
-					//System.out.println(id +" requested " + value);
 					x=(superswing.GameState);
-					broadcastSpecific("Game State: \n" + x + " End of game State",username);
+					broadcast("\n" + x);
 
 
 					break;

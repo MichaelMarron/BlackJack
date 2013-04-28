@@ -94,6 +94,43 @@ public ArrayList<Card> hand = new ArrayList<Card>();
 		}
 		return handVal;
 	}
+	public String showHand(int cardNumber){
+		int handVal = 0;
+
+		//for all cards in the hand
+		//for (int i=0; i<countCards(); i++ )
+		//{
+			//get the card
+			Card card = getCard(cardNumber);
+			String cardImage= "";
+			String cardVal = card.getRankString();
+			String cardSuit = card.getSuitString();
+			
+			
+			if (cardVal == "10"){
+			cardVal = "X";
+			}	
+			
+			if (cardSuit == "Spades"){			
+			cardImage = String.valueOf(cardVal) + "S";			
+			}
+			else if (cardSuit == "Hearts"){			
+			cardImage = String.valueOf(cardVal) + "H";			
+			}
+			else if (cardSuit == "Clubs"){			
+			cardImage = String.valueOf(cardVal) + "C";			
+			} 
+			else if (cardSuit == "Diamonds"){			
+			cardImage = String.valueOf(cardVal) + "D";			
+			} 
+			
+			//String cardImage = String.valueOf(cardVal) + cardSuit;
+			
+
+		return cardImage;
+	}
+	
+	
 
 
 
