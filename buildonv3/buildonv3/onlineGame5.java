@@ -294,7 +294,7 @@ register = new JButton("Register");
 register.addActionListener(this);
 submitLogin.addActionListener(this);
 card1.setBorder(loginTitle);
-card1.setBackground(Color.magenta);
+card1.setBackground(Color.red);
 card1.add(userNameLabel);
 card1.add(userNameField, "wrap");
 card1.add(passwordLabel);
@@ -332,7 +332,7 @@ registerBack = new JButton("Back to Login");
 registerBack.addActionListener(this);
 submitRegister.addActionListener(this);
 card2.setBorder(registerTitle);
-card2.setBackground(Color.magenta);
+card2.setBackground(Color.red);
 card2.add(fName);
 card2.add(fNameF, "wrap");
 card2.add(lName);
@@ -397,7 +397,7 @@ card3LeaderBoard.add(scroll);
 
 
 card3.setBorder(welcomeTitle);
-card3.setBackground(Color.magenta);
+card3.setBackground(Color.red);
 
 //welcomeLabel, viewProfileB, gamesB, leagueStatB, customB, logoutB, ppvB
 
@@ -433,7 +433,7 @@ vPFindFriends.addActionListener(this);
 
 
         card4.setBorder(registerTitle);
-        card4.setBackground(Color.magenta);
+        card4.setBackground(Color.red);
 
         card4.add(viewProfileUserName);
         card4.add(viewProfileAge);
@@ -509,7 +509,7 @@ friendsSubmit.addActionListener(this);
 
 
 card6.setBorder(friendTitle);
-card6.setBackground(Color.magenta);
+card6.setBackground(Color.red);
 
 card6.add(friendLabel, "growx, wrap");
 card6.add(friendsList, "growx");
@@ -540,7 +540,7 @@ newLeague.addActionListener(this);
 gamesBack.addActionListener(this);
 
 card7.setBorder(gameMenuTitle);
-card7.setBackground(Color.magenta);
+card7.setBackground(Color.red);
 
 card7.add(gamesMenuLabel, "growx, wrap");
 card7.add(blackjack, "growx");
@@ -580,7 +580,7 @@ pokerBack.addActionListener(this);
 
 
 card8.setBorder(pokerTitle);
-card8.setBackground(Color.magenta);
+card8.setBackground(Color.red);
 
 card8.add(pokerHelpB, "growx, wrap");
 card8.add(pokerCall, "growx");
@@ -704,7 +704,7 @@ card10.add(PokerB, "cell 1 3");
 
 card10.add(HomeB8, "cell 1 9");
 
-card10.setBackground(Color.magenta);
+card10.setBackground(Color.red);
 
 
 
@@ -734,7 +734,7 @@ helpBack.addActionListener(this);
 
 
 card11.setBorder(helpPageTitle);
-card11.setBackground(Color.magenta);
+card11.setBackground(Color.red);
 
 card11.add(blackjackLabel, "growx, wrap");
 card11.add(blackjackRules, "growx");
@@ -830,7 +830,7 @@ card12.add(GameSelectorLabel, "cell 5 2 ");
 card12.add(GameList, "cell 6 2 ");
 card12.add(SubmitLea, "cell 8 9");
 card12.add(HomeB9, "cell 1 9");
-card12.setBackground(Color.magenta);
+card12.setBackground(Color.red);
 
 
 
@@ -888,7 +888,7 @@ card13.add(pane3, "cell 5 2 2 7");
 card13.add(createLeaB, "cell 8 9");
 
 card13.add(HomeB8, "cell 1 9");
-card13.setBackground(Color.magenta);
+card13.setBackground(Color.red);
 
 
 
@@ -975,7 +975,7 @@ card14.add(BoardHandP, "cell 5 8 2 1");
 card14.add(submitB, "cell 9 10");
 
 card14.add(BackP, "cell 1 10");
-card14.setBackground(Color.magenta);
+card14.setBackground(Color.red);
 
 }
 
@@ -1064,7 +1064,7 @@ card15.add(MaxBetFieldBJ, "cell 5 8 2 1");
 card15.add(submitBj, "cell 9 10");
 card15.add(BackBj, "cell 1 10");
 
-card15.setBackground(Color.magenta);
+card15.setBackground(Color.red);
 
 
 }
