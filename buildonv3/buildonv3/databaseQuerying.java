@@ -232,7 +232,7 @@ public class databaseQuerying
             
             stmt = conn.createStatement();
             
-            String sql = "SELECT PI.Username, ST.Played, ST.Win, ST.Lose FROM Player_Info PI, Statistics ST WHERE PI.Player_ID = ST.Player_ID ORDER BY ST.Win DESC LIMIT 10"; 
+            String sql = "SELECT Username, Played, Win, Lose FROM Player_Info ORDER BY Win DESC LIMIT 10"; 
             ResultSet rs = stmt.executeQuery(sql); //Data found from query is assigned to rs     
 
             
@@ -279,6 +279,7 @@ public class databaseQuerying
             }
         }    
     }
+    
        
     public void setGameRules()
     {

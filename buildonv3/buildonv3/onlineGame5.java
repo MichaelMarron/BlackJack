@@ -309,7 +309,7 @@ registerTitle = new TitledBorder("Registeration Page");
 registerTitle.setTitleColor(Color.white);
 fName = new JLabel("First Name:");
 lName = new JLabel("Surename:");
-dOB = new JLabel("Date of Birth");
+dOB = new JLabel("Age:");
 aLine1 = new JLabel("Address Line 1:");
 aLine2 = new JLabel("Address Line 2:");
 city = new JLabel("City:");
@@ -1068,8 +1068,8 @@ card15.setBackground(Color.red);
 
 
 }
-
 */
+
 
 // These cards have been broken since I got them and give errors when compiled with a constructor. Anyone on frontend know about it?
 // TODOLIST
@@ -1250,28 +1250,41 @@ CardLayout cardLayout = (CardLayout) cards.getLayout();
 
 
 
-	//if(queryObject.login(userNameField.getText(), passwordField.getText()) == 1)
-            //{
-              //  System.out.println("Correct username & password");
+	if(queryObject.login(userNameField.getText(), passwordField.getText()) == 1)
+            {
+            	username = userNameField.getText();
+                System.out.println("Correct username & password");
                 Boolean Attempt =  ConnectToServer();
                 if (Attempt == true){
                     cardLayout.show(cards, "welcome");
                 }
-            //}
-            //else
-            //{
-            //    System.out.println("Wrong username & password");
-            //}
+            }
+           	else
+            {
+            	userNameLabel.setText("INCORRECT USERNAME:");
+            	passwordLabel.setText("INCORRECT PASSWORD:");
+                System.out.println("Wrong username & password");
+            }
 	}
 	if (eventtype== register){
 	cardLayout.show(cards, "register");}
+	if (eventtype== submitRegister){
+	
+	
+	queryObject.registerPlayer(cUsernameF.getText(), cPasswordF.getText(), eMailF.getText(), Integer.parseInt(dOBF.getText()), 10, cityF.getText());
+	
+
+		
+	cardLayout.show(cards, "login");	
+	}
+	
 	if (eventtype== registerBack){
 	cardLayout.show(cards, "login");}
 
 	if (eventtype== gamesB){
 	cardLayout.show(cards, "Games");}
 
-
+ 
 	if (eventtype== leagueStatB){
 	cardLayout.show(cards, "viewLeague");}
 

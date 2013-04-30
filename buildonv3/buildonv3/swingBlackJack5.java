@@ -394,14 +394,15 @@ JPanel p = new JPanel();
 			//TODOLIST
 	
 	public String ShowHand(int playernumber){
-		
-		int handsize = players[playernumber].countCards();
 		String playVal = "";
+		
+		int handsize = players[playernumber].countCards();		
 		playVal = playVal+handsize;
-		for (int j=0; j<handsize; j++){
-			playVal= playVal + players[playernumber].showHand(j) + " ";
+			for (int j=0; j<handsize; j++){
+				playVal= playVal + players[playernumber].showHand(j) + " ";
 			
-		}
+			}
+		
 	
 		return playVal;
 	}

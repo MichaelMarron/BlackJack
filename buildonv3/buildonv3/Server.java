@@ -104,7 +104,7 @@ public class Server {
 				superswing.setup();
 
 				String x=(superswing.GameState);
-				broadcast("New Player joined the game, redealing: "+ x);
+				//broadcast("New Player joined the game, redealing: "+ x);
 
 
 
@@ -179,7 +179,7 @@ public class Server {
 					superswing.resetGame();
 					superswing.setup();
 					x=(superswing.GameState);
-					broadcast("Player left the game, redealing: "+ x);
+					//broadcast("Player left the game, redealing: "+ x);
 					display("Disconnected Client " + ct.username + " removed from list.");
 				}
 			}
@@ -207,7 +207,7 @@ public class Server {
 				superswing.resetGame();
 				superswing.setup();
 				x=(superswing.GameState);
-				broadcast("Player left the game, redealing: "+ x);
+				//broadcast("Player left the game, redealing: "+ x);
 				display("Disconnected Client " + ct.username + " removed from list.");
 			}
 		}
@@ -374,7 +374,7 @@ public class Server {
 					superswing.resetGame();
 					superswing.setup();
 					x=(superswing.GameState);
-					broadcast("Player left the game, redealing: "+ x);
+					//broadcast("Player left the game, redealing: "+ x);
 					display(username + " disconnected with a LOGOUT message.");
 					keepGoing = false;
 					break;
