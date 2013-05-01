@@ -166,6 +166,27 @@ public class Server {
 			System.out.println(time);
 
 	}
+	
+	private synchronized void broadcastChat(String message, String Username) {
+
+		String messageLf = "X " + message;
+		for(int i = al.size(); --i >= 0;) {
+			ClientThread ct = al.get(i);
+			if(!ct.writeMsg(messageLf)) {
+				al.remove(i);
+				superswing.numberOfPlayers--;
+				superswing.resetGame();
+				superswing.setup();
+				x=(superswing.GameState);
+				//broadcast("Player left the game, redealing: "+ x);
+				display("Disconnected Client " + ct.username + " removed from list.");
+			}
+		
+		}
+	}
+	
+	
+	
 
 	private synchronized void broadcastSpecific(String message, String Username) {
 
@@ -384,6 +405,14 @@ public class Server {
 					x=superswing.ShowHand(id-1);
 
 					broadcastSpecific(x,username);
+
+					break;
+					
+				case ChatMessage.CHAT:
+
+					
+
+					broadcastChat(username +": " + message, username);
 
 					break;
 
