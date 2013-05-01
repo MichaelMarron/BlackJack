@@ -63,7 +63,7 @@ ImageIcon card8S= new ImageIcon("Images/8Spades.png");
 ImageIcon card7S= new ImageIcon("Images/7Spades.png");
 ImageIcon card6S= new ImageIcon("Images/6Spades.png");
 ImageIcon card5S= new ImageIcon("Images/5Spades.png");
-ImageIcon card4S= new ImageIcon("Images/3Spades.png");
+ImageIcon card4S= new ImageIcon("Images/4Spades.png");
 ImageIcon card3S= new ImageIcon("Images/3Spades.png");
 ImageIcon card2S= new ImageIcon("Images/2Spades.png");
 ImageIcon cardAS= new ImageIcon("Images/AceSpades.png");
@@ -77,7 +77,7 @@ ImageIcon card8C= new ImageIcon("Images/8Clubs.png");
 ImageIcon card7C= new ImageIcon("Images/7Clubs.png");
 ImageIcon card6C= new ImageIcon("Images/6Clubs.png");
 ImageIcon card5C= new ImageIcon("Images/5Clubs.png");
-ImageIcon card4C= new ImageIcon("Images/3Clubs.png");
+ImageIcon card4C= new ImageIcon("Images/4Clubs.png");
 ImageIcon card3C= new ImageIcon("Images/3Clubs.png");
 ImageIcon card2C= new ImageIcon("Images/2Clubs.png");
 ImageIcon cardAC= new ImageIcon("Images/AceClubs.png");
@@ -105,7 +105,7 @@ ImageIcon card8D= new ImageIcon("Images/8Diamonds.png");
 ImageIcon card7D= new ImageIcon("Images/7Diamonds.png");
 ImageIcon card6D= new ImageIcon("Images/6Diamonds.png");
 ImageIcon card5D= new ImageIcon("Images/5Diamonds.png");
-ImageIcon card4D= new ImageIcon("Images/3Diamonds.png");
+ImageIcon card4D= new ImageIcon("Images/4Diamonds.png");
 ImageIcon card3D= new ImageIcon("Images/3Diamonds.png");
 ImageIcon card2D= new ImageIcon("Images/2Diamonds.png");
 ImageIcon cardAD= new ImageIcon("Images/AceDiamonds.png");
@@ -236,6 +236,11 @@ class ListenFromServer extends Thread {
 				if (msg.startsWith("C")){
 					MatchCards(msg);
 				}
+				else if (msg.startsWith("X")){
+					//ConsoleOutput.setText(msg.substring(1));
+				}
+
+
 				else{
 					ConsoleOutput.setText(msg);
 				}
@@ -1264,13 +1269,13 @@ CardLayout cardLayout = (CardLayout) cards.getLayout();
 	if (eventtype== register){
 	cardLayout.show(cards, "register");}
 	if (eventtype== submitRegister){
-	
-	
-	queryObject.registerPlayer(cUsernameF.getText(), cPasswordF.getText(), eMailF.getText(), Integer.parseInt(dOBF.getText()), 10, cityF.getText());
-	
 
-		
-	cardLayout.show(cards, "login");	
+
+	queryObject.registerPlayer(cUsernameF.getText(), cPasswordF.getText(), eMailF.getText(), Integer.parseInt(dOBF.getText()), 10, cityF.getText());
+
+
+
+	cardLayout.show(cards, "login");
 	}
 
 	if (eventtype== vPFindFriends){
@@ -1281,14 +1286,14 @@ CardLayout cardLayout = (CardLayout) cards.getLayout();
 
 	if (eventtype== helpBackB){
 	cardLayout.show(cards, "blackjackC");}
-	
+
 	if (eventtype== registerBack){
 	cardLayout.show(cards, "login");}
 
 	if (eventtype== gamesB){
 	cardLayout.show(cards, "Games");}
 
- 
+
 	if (eventtype== leagueStatB){
 	cardLayout.show(cards, "viewLeague");}
 
