@@ -11,6 +11,7 @@ public class Server {
 	private static int uniqueId;
 	// an ArrayList to keep the list of the Client
 	private ArrayList<ClientThread> al;
+	private ArrayList<swingBlackJack5> gl;
 
 	// to display time
 	private SimpleDateFormat sdf;
@@ -42,17 +43,13 @@ public class Server {
 		sdf = new SimpleDateFormat("HH:mm:ss");
 		// ArrayList for the Client list
 		al = new ArrayList<ClientThread>();
+		gl = new ArrayList();
 
 
 
 		}
 
 
-
-	public void ServerGameJoinLogic(){
-	
-	
-	}
 
 
 
@@ -99,16 +96,16 @@ public class Server {
 
 
 				Socket socket = serverSocket.accept();  	// accept connection
-				superswing.numberOfPlayers++;
-				superswing.resetGame();
-				superswing.setup();
+				//superswing.numberOfPlayers++;
+				//superswing.resetGame();
+				//superswing.setup();
 
 				String x=(superswing.GameState);
 				//broadcast("New Player joined the game, redealing: "+ x);
 
 
 
-				System.out.println("Number of players connected: " + superswing.numberOfPlayers);
+				
 				// if I was asked to stop
 				if(!keepGoing)
 					break;
@@ -166,10 +163,9 @@ public class Server {
 			System.out.println(time);
 
 	}
-	
-	private synchronized void broadcastChat(String message, String Username) {
+	private synchronized void broadcastList2(String message, String Username) {
 
-		String messageLf = "X " + message;
+		String messageLf = "R " + message;
 		for(int i = al.size(); --i >= 0;) {
 			ClientThread ct = al.get(i);
 			if(!ct.writeMsg(messageLf)) {
@@ -185,6 +181,60 @@ public class Server {
 		}
 	}
 	
+	private synchronized void broadcastList(String message, String Username) {
+
+	
+		String messageLf = "L " + message;
+		for(int i = al.size(); --i >= 0;) {
+			ClientThread ct = al.get(i);
+			if(!ct.writeMsg(messageLf)) {
+				al.remove(i);
+				superswing.numberOfPlayers--;
+				superswing.resetGame();
+				superswing.setup();
+				x=(superswing.GameState);
+				//broadcast("Player left the game, redealing: "+ x);
+				display("Disconnected Client " + ct.username + " removed from list.");
+			}
+		
+		}
+	}
+	
+	private synchronized void broadcastChat(String message, String Username) {
+
+		String messageLf = "X " + message+ "\n";
+		for(int i = al.size(); --i >= 0;) {
+			ClientThread ct = al.get(i);
+			if(!ct.writeMsg(messageLf)) {
+				al.remove(i);
+				superswing.numberOfPlayers--;
+				superswing.resetGame();
+				superswing.setup();
+				x=(superswing.GameState);
+				//broadcast("Player left the game, redealing: "+ x);
+				display("Disconnected Client " + ct.username + " removed from list.");
+			}
+		
+		}
+	}
+	private synchronized void broadcastSpecific2(String message, String Username) {
+
+		String messageLf = "T " + message + " EN";
+		for(int i = al.size(); --i >= 0;) {
+			ClientThread ct = al.get(i);
+			if (ct.username == Username){
+				if(!ct.writeMsg(messageLf)) {
+					al.remove(i);
+					superswing.numberOfPlayers--;
+					superswing.resetGame();
+					superswing.setup();
+					x=(superswing.GameState);
+					//broadcast("Player left the game, redealing: "+ x);
+					display("Disconnected Client " + ct.username + " removed from list.");
+				}
+			}
+		}
+	}
 	
 	
 
@@ -212,7 +262,9 @@ public class Server {
 	private synchronized void broadcast(String message) {
 		// add HH:mm:ss and \n to the message
 		String time = sdf.format(new Date());
+		
 		String messageLf = message + "\n";
+		messageLf = "G " + message;
 			//System.out.print(messageLf);//display messages locally on server.
 		// we loop in reverse order in case we would have to remove a Client
 		// because it has disconnected
@@ -369,7 +421,9 @@ public class Server {
 				// the messaage part of the ChatMessage
 
 				String message = cm.getMessage();
+				String username2 = cm.getMessage();
 				String arrayname = cm.getArrayname();
+				String gamename = cm.getArrayname();
 				int value = cm.getValue();
 				int target = cm.getTarget();
 
@@ -391,21 +445,26 @@ public class Server {
 
 
 				case ChatMessage.LOGOUT:
-					superswing.numberOfPlayers--;
-					superswing.resetGame();
-					superswing.setup();
-					x=(superswing.GameState);
+					//superswing.numberOfPlayers--;
+					//superswing.resetGame();
+					//superswing.setup();
+					//x=(superswing.GameState);
 					//broadcast("Player left the game, redealing: "+ x);
 					display(username + " disconnected with a LOGOUT message.");
-					keepGoing = false;
+					//keepGoing = false;
 					break;
 
 				case ChatMessage.DRAW:
+					 
+					for(int i = gl.size(); --i >= 0;) {
+						swingBlackJack5 g = gl.get(i);
+						if (g.gamename == username){
+							x=g.ShowHand(id-1);
 
-					x=superswing.ShowHand(id-1);
-
-					broadcastSpecific(x,username);
-
+							broadcastSpecific(x,username);
+						}
+					}
+		
 					break;
 					
 				case ChatMessage.CHAT:
@@ -420,37 +479,125 @@ public class Server {
 
 					//broadcast(username);
 					//System.out.println(id +" requested a refresh");
-
-					superswing.game();
-					x=(superswing.GameState);
-					broadcast("\n" + x);
-					String GameStateString =getState(username);
-					
-
+					for(int i = gl.size(); --i >= 0;) {
+						swingBlackJack5 g = gl.get(i);
+						if (g.gamename == username){
+							
+							
+							g.game();
+							x=(superswing.GameState);
+							String GameStateString =getState(username);
+							for(int j = g.pl.size(); --j >= 0;) {
+								String k =g.pl.get(j);
+								broadcastSpecific2(x,k);
+							}
+								//broadcast("\n" + x);
+							
+						}
+					}
 					break;
 
+				case ChatMessage.NEW:
+				
+					superswing = new swingBlackJack5();
+					superswing.gamename= gamename;
+					gl.add(superswing);
+					superswing.pl.add(username2);
+					superswing.numberOfPlayers=1;
+					superswing.resetGame();					
+					superswing.setup();
+					
+					for(int i = gl.size(); --i >= 0;) {
+						swingBlackJack5 g = gl.get(i);
+						if (g.gamename == username){
+							
+							
+							g.game();
+							x=(superswing.GameState);
+							String GameStateString =getState(username);
+							for(int j = g.pl.size(); --j >= 0;) {
+								String k =g.pl.get(j);
+								broadcastSpecific2(x,k);
+								
+							}							
+						}
+					}
+					
+					broadcastList(gamename+ " 1/? "+ "BlackJack",gamename);
+					
+					
 
+
+					break;
+				
+				case ChatMessage.LIST:
+			
+				for(int i = gl.size(); --i >= 0;) {
+					broadcastList(gamename+ " 1/? "+ "BlackJack",gamename);
+				}
+				break;
+				
+				case ChatMessage.JOIN:
+			
+						
+					swingBlackJack5 superswing = gl.get(value+1);
+					superswing.pl.add(username2);
+					superswing.numberOfPlayers++;
+					superswing.resetGame();					
+					superswing.setup();
+			
+					for(int i = gl.size(); --i >= 0;) {
+						swingBlackJack5 g = gl.get(i);
+						if (g.gamename == username){
+							g.game();
+							x=(superswing.GameState);
+							String GameStateString =getState(username);
+							for(int j = g.pl.size(); --j >= 0;) {
+								String k =g.pl.get(j);
+								broadcastSpecific2(x,k);
+							}							
+						}
+					}		
+				
+					break;
 
 				case ChatMessage.CHANGE:
-
-
-					superswing.event(id,value);
-
-					x=(superswing.GameState);
-					broadcast("\n" + x);
+					for(int i = gl.size(); --i >= 0;) {
+						swingBlackJack5 g = gl.get(i);
+						if (g.gamename == username){
+						
+						
+							g.event(id,value);
+							x=(g.GameState);
+							for(int j = g.pl.size(); --j >= 0;) {
+								String k =g.pl.get(j);
+								broadcastSpecific2(x,k);
+							}
+						}
+					}
 
 
 					break;
 					
 				case ChatMessage.LEAVE:
-
-					System.out.println(id +" left");
-					superswing.numberOfPlayers--;
-					superswing.resetGame();
-					superswing.setup();
-					x=(superswing.GameState);
-					broadcast("Player left the game, redealing: "+ x);
-					display("Disconnected Client " + id + " removed from list.");
+					for(int i = gl.size(); --i >= 0;) {
+						swingBlackJack5 g = gl.get(i);
+						for(int j = g.pl.size(); --j >= 0;) {
+							String k =g.pl.get(j);
+							if (k ==username){
+					
+								System.out.println(id +" left");
+								g.numberOfPlayers--;
+								g.resetGame();
+								g.setup();
+								x=(g.GameState);
+									broadcast(x);	
+							}	
+						}
+					}
+					broadcastList2(username,username);
+								
+					
 
 
 					break;

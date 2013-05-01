@@ -18,6 +18,8 @@ String[] player_choice;  		//Array of player choices (Whether they stick or hit)
 int[] finalValues;		 		//Array of the final hand values for all players
 int playerCount = -1; 			//Value that acts as pointer to position in players[] when repeating game method
 boolean finish = false;			//Switch that activates when the game should end
+public ArrayList<String> pl;
+public String gamename ="";
 
 boolean ResultsDisplayed = false;
 boolean StillPlaying = true;
@@ -34,7 +36,7 @@ JPanel p = new JPanel();
 
 	public swingBlackJack5()
 	{
-
+		pl =new ArrayList<String>();
 	}
 
 	public void resetGame()
