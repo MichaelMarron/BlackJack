@@ -45,7 +45,9 @@ JComboBox LeagueList, GameList, maxPlayersselectP, NumOfRoundsP, cardHandP, Boar
 TitledBorder loginTitle, registerTitle, welcomeTitle, gameTitle, vLeagueTitle , cLeagueTitle, gameTitleP, gameTitleBJ;
 TitledBorder friendTitle, gameMenuTitle, leaderBoardTitle, viewProfileTitle;
 TitledBorder helpPageTitle, pokerTitle, blackjackTitle;
-
+TitledBorder helpPageTitleB, gamesTitleBj;
+JLabel helpPageLabelB;
+JButton helpBackB;
 
 JLabel card1shell, card2shell, card3shell, card4shell, card5shell, card6shell;
 JTextArea ConsoleOutput;
@@ -62,7 +64,7 @@ ImageIcon card7S= new ImageIcon("Images/7Spades.png");
 ImageIcon card6S= new ImageIcon("Images/6Spades.png");
 ImageIcon card5S= new ImageIcon("Images/5Spades.png");
 ImageIcon card4S= new ImageIcon("Images/3Spades.png");
-ImageIcon card3S= new ImageIcon("Images/4Spades.png");
+ImageIcon card3S= new ImageIcon("Images/3Spades.png");
 ImageIcon card2S= new ImageIcon("Images/2Spades.png");
 ImageIcon cardAS= new ImageIcon("Images/AceSpades.png");
 
@@ -75,7 +77,7 @@ ImageIcon card8C= new ImageIcon("Images/8Clubs.png");
 ImageIcon card7C= new ImageIcon("Images/7Clubs.png");
 ImageIcon card6C= new ImageIcon("Images/6Clubs.png");
 ImageIcon card5C= new ImageIcon("Images/5Clubs.png");
-ImageIcon card4C= new ImageIcon("Images/4Clubs.png");
+ImageIcon card4C= new ImageIcon("Images/3Clubs.png");
 ImageIcon card3C= new ImageIcon("Images/3Clubs.png");
 ImageIcon card2C= new ImageIcon("Images/2Clubs.png");
 ImageIcon cardAC= new ImageIcon("Images/AceClubs.png");
@@ -103,7 +105,7 @@ ImageIcon card8D= new ImageIcon("Images/8Diamonds.png");
 ImageIcon card7D= new ImageIcon("Images/7Diamonds.png");
 ImageIcon card6D= new ImageIcon("Images/6Diamonds.png");
 ImageIcon card5D= new ImageIcon("Images/5Diamonds.png");
-ImageIcon card4D= new ImageIcon("Images/4Diamonds.png");
+ImageIcon card4D= new ImageIcon("Images/3Diamonds.png");
 ImageIcon card3D= new ImageIcon("Images/3Diamonds.png");
 ImageIcon card2D= new ImageIcon("Images/2Diamonds.png");
 ImageIcon cardAD= new ImageIcon("Images/AceDiamonds.png");
@@ -234,10 +236,6 @@ class ListenFromServer extends Thread {
 				if (msg.startsWith("C")){
 					MatchCards(msg);
 				}
-				else if (msg.startsWith("X")){
-					//ConsoleOutput.setText(msg.substring(1));
-				}
-				
 				else{
 					ConsoleOutput.setText(msg);
 				}
@@ -510,7 +508,7 @@ friendUsernameF = new JTextField(25);
 friendsSubmit = new JButton("Submit");
 
 friendsSubmit.addActionListener(this);
-
+findFriendBack.addActionListener(this);
 
 card6.setBorder(friendTitle);
 card6.setBackground(Color.red);
@@ -614,6 +612,7 @@ blackjackHit = new JButton("Hit  ");
 blackjackStick = new JButton("Stick");
 blackjackDeal = new JButton("Deal ");
 blackjackRefresh2 = new JButton("Refresh");
+blackjackHelp = new JButton("Help");
 ConsoleOutput = new JTextArea();
 UserInstructions = new JTextArea();
 scrollPane = new JScrollPane(ConsoleOutput);
@@ -636,6 +635,8 @@ blackjackStick.addActionListener(this);
 blackjackRefresh2.addActionListener(this);
 blackjackBack.addActionListener(this);
 
+blackjackHelp.addActionListener(this);
+
 card9.add(scrollPane, "growx, wrap 5");
 card9.add(blackjackBack, "growx");
 //card9.add(ConsoleOutput, "growx");
@@ -643,14 +644,13 @@ card9.add(blackjackDeal, "growx, wrap");
 card9.add(blackjackHit, "growx");
 card9.add(blackjackStick, "growx, wrap");
 card9.add(blackjackRefresh2, "growx");
+card9.add(blackjackHelp, "growx, wrap");
 card9.add(UserInstructions, "growx, wrap");
 
 
 cardPanel = new JPanel(new MigLayout("wrap 6","[70!]","[40!]"));
 cardPanel.setPreferredSize(new Dimension(50, 200));
 cardPanel.setBackground(Color.green);
-
-
 
 
 card1shell = new JLabel(cardBlank);
@@ -698,6 +698,7 @@ BJB = new JButton("BlackJack");
 
 PokerB.addActionListener(this);
 BJB.addActionListener(this);
+HomeB8.addActionListener(this);
 
 
 card10.setBorder(gameTitle);
@@ -719,14 +720,9 @@ card10.setBackground(Color.red);
 public void Card11Constructor(JPanel card11) //Card11 constructor
 {
 
-helpPageTitle = new TitledBorder("Help Page");
+helpPageTitle = new TitledBorder("Poker Help Page");
 helpPageTitle.setTitleColor(Color.white);
 helpPageLabel = new JLabel("Help Page");
-blackjackLabel = new JLabel("Blackjack");
-blackjackRules = new JLabel("Rules: ");
-blackjackRulesBox = new JTextField(100);
-blackjackControls = new JLabel("Controls: ");
-blackjackControlsBox = new JTextField(50);
 pokerLabel = new JLabel("Poker");
 pokerRules = new JLabel("Rules: ");
 pokerRulesBox = new JTextField(100);
@@ -740,17 +736,12 @@ helpBack.addActionListener(this);
 card11.setBorder(helpPageTitle);
 card11.setBackground(Color.red);
 
-card11.add(blackjackLabel, "growx, wrap");
-card11.add(blackjackRules, "growx");
-card11.add(blackjackRulesBox, "growx, wrap");
-card11.add(blackjackControls, "growx");
-card11.add(blackjackControlsBox, "growx, wrap");
-card11.add(pokerLabel, "growx, wrap");
-card11.add(pokerRules, "growx");
-card11.add(pokerRulesBox, "growx, wrap");
-card11.add(pokerControls, "growx");
-card11.add(pokerControlsBox, "growx, wrap");
-card11.add(helpBack, "growx");
+card11.add(pokerLabel, "cell 4 2 ");
+card11.add(pokerRules, "cell 4 3");
+card11.add(pokerRulesBox, "cell 5 3 2 1");
+card11.add(pokerControls, "cell 4 6");
+card11.add(pokerControlsBox, "cell 5 6 2 1");
+card11.add(helpBack, "cell 9 7");
 
 
 
@@ -877,9 +868,10 @@ String data[][] = {
 		  table.getColumnModel().getColumn(0).setPreferredWidth(100);
 		  table.getColumnModel().getColumn(1).setPreferredWidth(310);
 
-		  createLeaB = new JButton ("Create League");
+createLeaB = new JButton ("Create League");
 
 HomeB7.addActionListener(this);
+createLeaB.addActionListener(this);
 
 
 card13.setBorder(vLeagueTitle);
@@ -891,94 +883,81 @@ card13.add(pane, "cell 0 5");
 card13.add(pane3, "cell 5 2 2 7");
 card13.add(createLeaB, "cell 8 9");
 
-card13.add(HomeB8, "cell 1 9");
+card13.add(HomeB7, "cell 1 9");
 card13.setBackground(Color.red);
 
 
 
 }
-/*
+
 public void Card14Constructor(JPanel card14) //Card3 constructor
 {//BlackJack
-gameTitleBJ = new TitledBorder("Create a Game of Black Jack");
-gameTitle.setTitleColor(Color.white);
-//name of the game
+
+gamesTitleBj = new TitledBorder("Create a Game of Blackjack");
+gamesTitleBj.setTitleColor(Color.white);
+
+card14.setBorder(gamesTitleBj);
+
 gameNameFieldBJ = new JTextField(10);
+card14.add(gameNameFieldBJ, "cell 5 2 2 1");
 gameNameLabelBJ = new JLabel("Game Name:");
+card14.add(gameNameLabelBJ, "cell 4 2 ");
 String[] LeagueStrings = { "This", "is", "Example", "Data", "Please", "Replace" };
 //submit button
 submitBj = new JButton ("Submit");
+card14.add(submitBj, "cell 9 10");
 
 //max players (dropdown)
 String[] PNumBJ = { "2", "3", "4", "5", "6", "7", "8", "9" };
 maxPlayersselectBJ = new JComboBox(LeagueStrings);
 maxPlayersselectBJ.setSelectedIndex(0);
 maxPlayersLabelBJ = new JLabel("Maximum Number of Players:");
+card14.add(maxPlayersLabelBJ, "cell 4 3");
+card14.add(maxPlayersselectBJ, "cell 5 3 2 1");
 
 //Dealer Stick Number
 String[] RoundsBJ = { "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21" };
 NumOfRoundsBJ = new JComboBox(LeagueStrings);
 NumOfRoundsBJ.setSelectedIndex(0);
 NumOfRoundsLabelBJ = new JLabel("Dealers Minimum Sticking Point");
+card14.add(NumOfRoundsLabelBJ, "cell 4 6");
+card14.add(NumOfRoundsBJ, "cell 5 6 2 1");
 
-//How many rounds (dropdown)
 String[] BJstickNum = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
 StickNumBJ = new JComboBox(LeagueStrings);
 StickNumBJ.setSelectedIndex(0);
+card14.add(StickNumBJ, "cell 5 5 2 1");
 StickNumLabelBJ = new JLabel("How Many Rounds:");
+card14.add(StickNumLabelBJ, "cell 4 5");
 
 //Starting Credits
-StartCredFieldBJ = new JTextField(10);
 StartCredLabelBJ = new JLabel("Starting Credits:");
+StartCredFieldBJ = new JTextField(10);
+
+card14.add(StartCredLabelBJ, "cell 4 7");
+card14.add(StartCredFieldBJ, "cell 5 7 2 1");
+
 
 //min bet
-MinBetFieldBJ = new JTextField(10);
 MinBetLabelBJ = new JLabel("Minimum Bet:");
+MinBetFieldBJ = new JTextField(10);
+
+card14.add(MinBetLabelBJ, "cell 4 8");
+card14.add(MinBetFieldBJ, "cell 5 8 2 1");
 
 //max bet
-MaxBetFieldBJ = new JTextField(10);
 MaxBetLabelBJ = new JLabel("Maximum Bet:");
+MaxBetFieldBJ = new JTextField(10);
+
+card14.add(MaxBetLabelBJ, "cell 4 9");
+card14.add(MaxBetFieldBJ, "cell 5 9 2 1");
 
 //back
 BackBj = new JButton ("Back");
+BackBj.addActionListener(this);
 
-//BackBJ.addActionListener(this);
+card14.add(BackBj, "cell 1 10");
 
-card14.setBorder(gameTitleP);
-//game name
-card14.add(gameNameLabelP, "cell 4 2 ");
-card14.add(gameNameFieldP, "cell 5 2 2 1");
-
-//max players
-card14.add(maxPlayersLabel, "cell 4 3");
-card14.add(maxPlayersselectP, "cell 5 3 2 1");
-
-//Small Bind
-card14.add(SbindLabelP, "cell 4 4");
-card14.add(SbindFieldP, "cell 5 4 2 1");
-
-//Big Bind
-card14.add(BbindLabelP, "cell 4 5");
-card14.add(BbindFieldP, "cell 5 5 2 1");
-
-
-//How many Rounds (dropdown)
-card14.add(NumOfRoundsPLabel, "cell 4 6");
-card14.add(NumOfRoundsP, "cell 5 6 2 1");
-
-
-//number of cards per hand (dropdown)
-card14.add(cardHandLabel, "cell 4 7");
-card14.add(cardHandP, "cell 5 7 2 1");
-
-
-//number of dealt to board (dropdown)
-card14.add(boardcardsLabel, "cell 4 8");
-card14.add(BoardHandP, "cell 5 8 2 1");
-
-card14.add(submitB, "cell 9 10");
-
-card14.add(BackP, "cell 1 10");
 card14.setBackground(Color.red);
 
 }
@@ -987,14 +966,19 @@ public void Card15Constructor(JPanel card15) //Card3 constructor
 {
 
 gameTitleP = new TitledBorder("Create a Game of Poker");
-gameTitle.setTitleColor(Color.white);
+gameTitleP.setTitleColor(Color.white);
+card15.setBorder(gameTitleP);
+
 String[] LeagueStrings = { "This", "is", "Example", "Data", "Please", "Replace" };
 //name of the game
 gameNameFieldP = new JTextField(10);
 gameNameLabelP = new JLabel("Game Name:");
 
+card15.add(gameNameFieldP, "cell 5 2 2 1");
+card15.add(gameNameLabelP, "cell 4 2 ");
 //submit button
 submitB = new JButton ("Submit");
+card15.add(submitB, "cell 9 10");
 
 //max players (dropdown?)
 
@@ -1003,12 +987,22 @@ maxPlayersselectP = new JComboBox(LeagueStrings);
 maxPlayersselectP.setSelectedIndex(0);
 maxPlayersLabel = new JLabel("Maximum Number of Players:");
 
+card15.add(maxPlayersselectP, "cell 5 3 2 1");
+card15.add(maxPlayersLabel, "cell 4 3");
+
 // Small Bind
 SbindFieldP = new JTextField(10);
 SbindLabelP = new JLabel("Small Bind:");
+
+card15.add(SbindFieldP, "cell 5 4 2 1");
+card15.add(SbindLabelP, "cell 4 4");
+
 //Big Bind
 BbindFieldP = new JTextField(10);
 BbindLabelP = new JLabel("Big Bind:");
+
+card15.add(BbindFieldP, "cell 5 5 2 1");
+card15.add(BbindLabelP, "cell 4 5");
 
 //How many Rounds (dropdown)
 String[] RoundPoker = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
@@ -1016,11 +1010,17 @@ NumOfRoundsP = new JComboBox(LeagueStrings);
 NumOfRoundsP.setSelectedIndex(0);
 NumOfRoundsPLabel = new JLabel("How Many Rounds:");
 
+card15.add(NumOfRoundsP, "cell 5 6 2 1");
+card15.add(NumOfRoundsPLabel, "cell 4 6");
+
 //number of cards per hand (dropdown)
 String[] HandPoker = { "1", "2", "3"};
 cardHandP = new JComboBox(LeagueStrings);
 cardHandP.setSelectedIndex(0);
 cardHandLabel = new JLabel("Amount of cards Dealt to each Player:");
+
+card15.add(cardHandP, "cell 5 7 2 1");
+card15.add(cardHandLabel, "cell 4 7");
 
 //number of dealt to board (dropdown)
 String[] BoardPoker = { "1", "2", "3"};
@@ -1028,52 +1028,21 @@ BoardHandP = new JComboBox(LeagueStrings);
 BoardHandP.setSelectedIndex(0);
 boardcardsLabel = new JLabel("Amount of cards Dealt to the Board:");
 
+card15.add(BoardHandP, "cell 5 8 2 1");
+card15.add(boardcardsLabel, "cell 4 8");
+
 //back
 BackP = new JButton ("Back");
 
+card15.add(BackP, "cell 1 10");
+
+BackP.addActionListener(this);
+
 submitB.addActionListener(this);
-
-
-card15.setBorder(gameTitleBJ);
-
-card15.add(gameNameLabelBJ, "cell 4 2 ");
-card15.add(gameNameFieldBJ, "cell 5 2 2 1");
-
-//max players
-card15.add(maxPlayersLabelBJ, "cell 4 3");
-card15.add(maxPlayersselectBJ, "cell 5 3 2 1");
-
-//Dealer Stick Number
-card15.add(NumOfRoundsLabelBJ, "cell 4 4");
-card15.add(NumOfRoundsBJ, "cell 5 4 2 1");
-
-//How many rounds (dropdown)
-card15.add(StickNumLabelBJ, "cell 4 5");
-card15.add(StickNumBJ, "cell 5 5 2 1");
-
-//Starting Credits
-card15.add(StartCredLabelBJ, "cell 4 6");
-card15.add(StartCredFieldBJ, "cell 5 6 2 1");
-
-//min bet
-card15.add(MinBetLabelBJ, "cell 4 7");
-card15.add(MinBetFieldBJ, "cell 5 7 2 1");
-
-
-//max bet
-card15.add(MaxBetLabelBJ, "cell 4 8");
-card15.add(MaxBetFieldBJ, "cell 5 8 2 1");
-
-
-card15.add(submitBj, "cell 9 10");
-card15.add(BackBj, "cell 1 10");
 
 card15.setBackground(Color.red);
 
-
 }
-*/
-
 
 // These cards have been broken since I got them and give errors when compiled with a constructor. Anyone on frontend know about it?
 // TODOLIST
@@ -1087,18 +1056,41 @@ card15.setBackground(Color.red);
     //Method for joining particular game lobbies. Reminder to parse game choices into listbox then increment player count on that game and rejoin users.
     //TODOLIST
 
+public void Card16Constructor(JPanel card16) //Card16 constructor
+{
+helpPageTitleB = new TitledBorder("Help Page");
+helpPageTitle.setTitleColor(Color.white);
+helpPageLabelB = new JLabel("Help Page");
+blackjackLabel = new JLabel("Blackjack Help");
+blackjackRules = new JLabel("Rules: ");
+blackjackRulesBox = new JTextField(100);
+blackjackControls = new JLabel("Controls: ");
+blackjackControlsBox = new JTextField(50);
+
+helpBackB = new JButton("Back");
+
+helpBackB.addActionListener(this);
+
+
+card16.setBorder(helpPageTitleB);
+card16.setBackground(Color.red);
+
+card16.add(blackjackLabel, "cell 4 2 ");
+
+
+card16.add(blackjackRules, "cell 4 3");
+card16.add(blackjackRulesBox, "cell 5 3 2 1");
+
+
+card16.add(blackjackControls, "cell 4 6");
+card16.add(blackjackControlsBox, "cell 5 6 2 1");
+
+
+card16.add(helpBackB, "cell 9 7");
 
 
 
-
-
-
-
-
-
-
-
-
+}
 
 public onlineGame5() //This is the CONSTRUCTOR method
 {
@@ -1135,19 +1127,16 @@ JPanel card9 = new JPanel(new MigLayout("wrap 1", "[800!]", "[::200]"));
 JPanel card10 = new JPanel(new MigLayout(	      "",           // Layout Constraints
 	      "20[]20[]20[]20[]20[]20[]20[]20[]20[]",   // Column constraints
 	      "[]20[]20[]20[]20[]20[]20[]20[]20[]20[]"));
-JPanel card11 = new JPanel(new MigLayout("wrap 5", "[200!]", "[50!]"));
+JPanel card11 = new JPanel(new MigLayout());
 JPanel card12 = new JPanel(new MigLayout(	      "",           // Layout Constraints
 	      "20[]20[]20[]20[]20[]20[]20[]20[]100[]",   // Column constraints
 	      "[]20[]20[]20[]20[]20[]20[]20[]20[]20[]"));
 JPanel card13 = new JPanel(new MigLayout(	      "",           // Layout Constraints
 	      "20[]20[]20[]20[]20[]20[]20[]20[]50[]",   // Column constraints
 	      "[]20[]20[]20[]20[]20[]20[]20[]20[]20[]"));
-JPanel card14 = new JPanel(new MigLayout(	      "",           // Layout Constraints
-	      "20[]20[]20[]20[]20[]20[]20[]20[]20[]",   // Column constraints
-	      "[]20[]20[]20[]20[]20[]20[]20[]20[]20[]"));
-JPanel card15 = new JPanel(new MigLayout(	      "",           // Layout Constraints
-	      "20[]20[]20[]20[]20[]20[]20[]20[]20[]",   // Column constraints
-	      "[]20[]20[]20[]20[]20[]20[]20[]20[]20[]"));
+JPanel card14 = new JPanel(new MigLayout());
+JPanel card15 = new JPanel(new MigLayout());
+JPanel card16 = new JPanel(new MigLayout());
 
 Card1Constructor(card1);
 Card2Constructor(card2);
@@ -1162,8 +1151,9 @@ Card10Constructor(card10);
 Card11Constructor(card11);
 Card12Constructor(card12);
 Card13Constructor(card13);
-//Card14Constructor(card14);
-//Card15Constructor(card15);
+Card14Constructor(card14);
+Card15Constructor(card15);
+Card16Constructor(card16);
 
 
 
@@ -1179,11 +1169,12 @@ cards.add(card7, "Games");
 cards.add(card8, "poker");
 cards.add(card9, "blackjackC");
 cards.add(card10, "createAgameMenu");
-cards.add(card11, "helpPageC");
+cards.add(card11, "helpPageP");
 cards.add(card12, "createAnewLeague");
 cards.add(card13, "viewLeague");
-//cards.add(card14, "createAgameBlackjack");
-//cards.add(card15, "createAgamePoker");
+cards.add(card14, "createAgameBlackjack");
+cards.add(card15, "createAgamePoker");
+cards.add(card16, "helpPageB");
 
 
 
@@ -1281,6 +1272,15 @@ CardLayout cardLayout = (CardLayout) cards.getLayout();
 		
 	cardLayout.show(cards, "login");	
 	}
+
+	if (eventtype== vPFindFriends){
+	cardLayout.show(cards, "find-friends");}
+
+	if (eventtype== newLeague){
+	cardLayout.show(cards, "createAnewLeague");}
+
+	if (eventtype== helpBackB){
+	cardLayout.show(cards, "blackjackC");}
 	
 	if (eventtype== registerBack){
 	cardLayout.show(cards, "login");}
@@ -1307,11 +1307,18 @@ CardLayout cardLayout = (CardLayout) cards.getLayout();
 	if (eventtype== ePBackB){
 	cardLayout.show(cards, "profile");}
 
+	if (eventtype== createAGame){
+	cardLayout.show(cards, "createAgameMenu");}
+
 	if (eventtype== findFriend){
 	cardLayout.show(cards, "find-friends");}
 
 	if (eventtype== findFriendBack){
 	cardLayout.show(cards, "welcome");}
+
+
+	if (eventtype== blackjackHelp){
+	cardLayout.show(cards, "helpPageB");}
 
 	//if (eventtype== findFriendSubmit){
 	//"CODE FOR SEARCHING FOR FRIENDS"
@@ -1330,8 +1337,6 @@ CardLayout cardLayout = (CardLayout) cards.getLayout();
 	String msg = "New Player has joined the game ";
 	sendMessage(new ChatMessage(ChatMessage.MESSAGE, msg, null, 0, 0));
 	UpdateState();
-
-
 
 	}
 	if (eventtype== blackjackStick){
@@ -1363,10 +1368,7 @@ CardLayout cardLayout = (CardLayout) cards.getLayout();
 	cardLayout.show(cards, "Games");}
 
 	if (eventtype== pokerHelpB){
-	cardLayout.show(cards, "helpPageC");}
-
-	if (eventtype== blackjackHelp){
-	cardLayout.show(cards, "helpPageC");}
+	cardLayout.show(cards, "helpPageP");}
 
 	if (eventtype== blackjackBack){
 	sendMessage(new ChatMessage(ChatMessage.LOGOUT, "", null, 0, 0));
@@ -1388,16 +1390,16 @@ CardLayout cardLayout = (CardLayout) cards.getLayout();
 	cardLayout.show(cards, "welcome");}
 
 	if (eventtype== HomeB8){
-	cardLayout.show(cards, "welcome");}
+	cardLayout.show(cards, "Games");}
 
 	if (eventtype== createLeaB){
 	cardLayout.show(cards, "createAnewLeague");}
 
 	if (eventtype== BackBj){
-	cardLayout.show(cards, "Games");}
+	cardLayout.show(cards, "createAgameMenu");}
 
 	if (eventtype== BackP){
-	cardLayout.show(cards, "Games");}
+	cardLayout.show(cards, "createAgameMenu");}
 	}
 
 
